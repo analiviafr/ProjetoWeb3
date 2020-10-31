@@ -60,6 +60,9 @@ const IpSchema = new mongoose.Schema({
       type: String,
       required: true,
     },
+    note: {
+      type: String,
+    },
     createdAt: {
       type: Date,
       default: Date.now, //armazena a data que o endereço IP foi inserido no banco
