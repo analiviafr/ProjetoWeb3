@@ -8,12 +8,11 @@ const User = require('../models/User');
 
 const router = express.Router();
 
-//teste
 router.use(cors());
 
 function generateToken(params = {}) {
   return jwt.sign(params, authConfig.secret, {
-    expiresIn: 86400,
+    expiresIn: 86400, //expira em 1 dia
   });
 }
 
@@ -28,6 +27,7 @@ router.post('/register', async(req, red) => {
     user.password = undefined;
 
     return res.send({ user, token: generateToken({ id: user.id }) });
+
   } catch (err){
     return res.status(400).send({ error: 'Falha no cadastro'});
   }
@@ -45,7 +45,7 @@ router.post('/authenticate', async(req, res) => {
 
   user.password = undefined;
 
-  res.send({ user, token: generateToken({ id: user.id}), });
+  res.send({ user, token: generateToken({ id: user.id}) });
 });
 
 module.exports = app => app.use('/auth', router);
