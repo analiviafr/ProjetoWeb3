@@ -62,6 +62,7 @@ const IpSchema = new mongoose.Schema({
     },
     note: {
       type: String,
+      required: false,
     },
     createdAt: {
       type: Date,
