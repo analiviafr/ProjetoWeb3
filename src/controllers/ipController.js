@@ -7,7 +7,7 @@ router.use(cors());
 
 //Realiza a busca de IPs
 router.get('/:ip', async (req, res) => {
-  const ip_busca = req.params;
+  const ip_busca = req.query.ip;
   //console.log(ip_busca);
   Ip.findOne({ ip_busca }, function (error, result) {
         if(error){
