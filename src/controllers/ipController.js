@@ -1,17 +1,19 @@
 const express = require('express');
 const Ip = require('../models/Ip');
+const auth = require('../middlewares/auth');
 const authAdm = require('../middlewares/authAdm');
 const router = express.Router();
 const cors = require('cors');
 
 router.use(cors());
+router.use(auth);
 
 //Realiza a busca de IPs
 router.get('/:ip', async (req, res) => {
-  const ip_busca = req.query.ip;
+  const ip = req.params.ip;
   //console.log(ip_busca);
-  Ip.findOne({ ip_busca }, function (error, result) {
-        if(error){
+  Ip.findOne({ ip }, function (error, result) {
+        if(!result){
             return res.status(400).send({ error: 'IP não econtrado.' });
         }
         else{
