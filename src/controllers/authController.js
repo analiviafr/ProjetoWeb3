@@ -10,8 +10,8 @@ const router = express.Router();
 
 router.use(cors());
 
-function generateToken(params = {}) {
-  return jwt.sign(params, authConfig.secret, {
+function generateToken(query = {}) {
+  return jwt.sign(query, authConfig.secret, {
     expiresIn: 86400, //expira em 1 dia
   });
 }
