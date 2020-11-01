@@ -31,7 +31,7 @@ const IpSchema = new mongoose.Schema({
       required: true,
     },
     radius: {
-      type: Decimal,
+      type: Number,
       required: true,
     },
     postal: {

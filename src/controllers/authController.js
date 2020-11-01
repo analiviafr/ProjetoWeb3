@@ -16,7 +16,7 @@ function generateToken(params = {}) {
   });
 }
 
-router.post('/register', async(req, red) => {
+router.post('/register', async(req, res) => {
   const { email } = req.body;
   try{
     if(await User.findOne({ email }))
