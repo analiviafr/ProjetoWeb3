@@ -28,7 +28,7 @@ router.post('/ipregister', async (req,res) => {
       const ip = await Ip.create(req.body);
       return res.send({ ip });
     }catch(error){
-      return res.status(400).send({error: 'IP registration failed'});
+      return res.status(400).send({error: 'IP registration failed: IP address already exists.'});
     }
 });
 
