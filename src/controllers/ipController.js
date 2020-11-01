@@ -1,6 +1,9 @@
 const express = require('express');
 const Ip = require('../models/Ip');
 const router = express.Router();
+const cors = require('cors');
+
+router.use(cors());
 
 //Realiza a busca de IPs
 router.get('/:ip', async (req, res) => {
