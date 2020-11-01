@@ -1,5 +1,6 @@
 const express = require('express');
 const Ip = require('../models/Ip');
+const authAdm = require('../middlewares/authAdm');
 const router = express.Router();
 const cors = require('cors');
 
@@ -11,7 +12,7 @@ router.get('/:ip', async (req, res) => {
   //console.log(ip_busca);
   Ip.findOne({ ip_busca }, function (error, result) {
         if(error){
-            return res.status(400).send({ error: 'IP not found' });
+            return res.status(400).send({ error: 'IP não econtrado.' });
         }
         else{
             res.send({ ip: result });
@@ -19,16 +20,14 @@ router.get('/:ip', async (req, res) => {
     });
 });
 
-//Requer que esteja logado como admin para registrar um IP
-//router.get('/ipregister', )
-
 //Registro de um novo IP
-router.post('/ipregister', async (req,res) => {
+//Requer que esteja logado como admin para registrar um IP
+router.post('/ipregister', authAdm, async (req,res) => {
     try{
       const ip = await Ip.create(req.body);
       return res.send({ ip });
     }catch(error){
-      return res.status(400).send({error: 'IP registration failed: IP address already exists.'});
+      return res.status(400).send({error: 'O cadastro do IP falhou. Tente novamente mais tarde.'});
     }
 });
 
