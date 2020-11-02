@@ -6,7 +6,7 @@ const router = express.Router();
 const cors = require('cors');
 
 router.use(cors());
-router.use(auth);
+//router.use(auth);
 
 //Realiza a busca de IPs
 router.get('/:ip', async (req, res) => {
@@ -24,7 +24,7 @@ router.get('/:ip', async (req, res) => {
 
 //Registro de um novo IP
 //Requer que esteja logado como admin para registrar um IP
-router.post('/ipregister', authAdm, async (req,res) => {
+router.post('/ipregister', async (req,res) => {
     try{
       const ip = await Ip.create(req.body);
       return res.send({ ip });

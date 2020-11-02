@@ -10,8 +10,8 @@ const router = express.Router();
 
 router.use(cors());
 
-function generateToken(body = {}) { //query
-  return jwt.sign(body, authConfig.secret, { //query
+function generateToken(query = {}) {
+  return jwt.sign(query, authConfig.secret, {
     expiresIn: 86400, //expira em 1 dia
   });
 }
@@ -22,7 +22,7 @@ router.post('/register', async(req, res) => {
     if(await User.findOne({ email }))
       return res.status(400).send({ error: 'Usuário já cadastrado' });
 
-    const user =  await User.creat(req.body);
+    const user =  await User.create(req.body);
 
     user.password = undefined;
 
