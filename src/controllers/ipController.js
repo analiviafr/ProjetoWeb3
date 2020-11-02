@@ -4,6 +4,8 @@ const auth = require('../middlewares/auth');
 const authAdm = require('../middlewares/authAdm');
 const router = express.Router();
 const cors = require('cors');
+const multer = require('multer');
+const upload = multer({dest: 'uploads/'});
 
 router.use(cors());
 //router.use(auth);
@@ -24,7 +26,7 @@ router.get('/:ip', async (req, res) => {
 
 //Registro de um novo IP
 //Requer que esteja logado como admin para registrar um IP
-router.post('/ipregister', async (req,res) => {
+router.post('/ipregister', upload.single('image'), async (req,res) => {
     try{
       const ip = await Ip.create(req.body);
       return res.send({ ip });
