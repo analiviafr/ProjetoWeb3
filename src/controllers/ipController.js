@@ -4,21 +4,11 @@ const auth = require('../middlewares/auth');
 const authAdm = require('../middlewares/authAdm');
 const router = express.Router();
 const cors = require('cors');
-const multer = require('multer');
+const fileUpload = require('express-fileupload');
 
 router.use(cors());
-//router.use(auth);
-
-const storage = multer.diskStorage({
-  destination: function(req, file, callback){
-    callback(null, "uploads/");
-  },
-  filename: function (req, file, callback){
-    callback(null, file.originalname);
-  }
-});
-
-const upload = multer({storage});
+router.use(auth);
+router.use(fileUpload());
 
 //Realiza a busca de IPs
 router.get('/:ip', async (req, res) => {
@@ -35,11 +25,19 @@ router.get('/:ip', async (req, res) => {
 
 //Registro de um novo IP
 //Requer que esteja logado como admin para registrar um IP
-router.post('/ipregister', upload.single('image'), async (req,res) => {
+router.post('/ipregister', authAdm, async (req,res) => {
+    let sampleFile;
+    if(!req.files || Object.keys(req.files).length === 0){
+      res.status(400).send('O mapa não foi recebido.');
+      return;
+    }
+    sampleFile = req.files.map;
+    sampleFile.mv(`${__dirname}/uploads/${sampleFile.name}`, function(err){
+      if(err){
+        return res.status(400).send({err: 'O arquivo não pode ser salvo.'});
+      }
+    });
     try{
-      console.log(req.body);
-      const file = req.file;
-      console.log(file);
       const ip = await Ip.create({
         ip: req.body.ip,
         city: req.body.city,
@@ -50,14 +48,13 @@ router.post('/ipregister', upload.single('image'), async (req,res) => {
         timezone: req.body.timezone,
         radius: req.body.radius,
         postal: req.body.postal,
-        countryCode: req.boby.countryCode,
+        countryCode: req.body.countryCode,
         countryAbbreviator: req.body.countryAbbreviator,
         stateCode: req.body.stateCode,
         stateAbbreviator: req.body.stateAbbreviator,
-        map: file.filename,
+        map: sampleFile.name,
         note: req.body.note
       });
-      console.log(ip);
       return res.send({ ip });
     }catch(error){
       //Valida se o IP já se encontra no sistema para exibir um erro específico
