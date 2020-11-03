@@ -29,6 +29,7 @@ router.get('/:ip', async (req, res) => {
 router.post('/ipregister', async (req,res) => {
     let sampleFile;
     if(!req.files || Object.keys(req.files).length === 0){
+      console.log(1);
       res.status(400).send('O mapa não foi recebido.');
       return;
     }
