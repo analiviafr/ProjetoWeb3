@@ -56,7 +56,7 @@ router.post('/ipregister', async (req,res) => {
         map: sampleFile.name,
         note: req.body.note
       });
-      return res.send({ ip });
+      return res.send({ status: true });
     }catch(error){
       //Valida se o IP já se encontra no sistema para exibir um erro específico
       const ip_verification = req.params.ip;
