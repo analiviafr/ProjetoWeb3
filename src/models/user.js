@@ -13,6 +13,11 @@ const UserSchema = new mongoose.Schema({
     required: true,
     select: false,
   },
+  role: {
+        type: String,
+        required: true,
+        lowercase: false,
+  },
 
 });
 
