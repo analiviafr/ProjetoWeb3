@@ -7,7 +7,7 @@ const cors = require('cors');
 const fileUpload = require('express-fileupload');
 
 router.use(cors());
-router.use(auth);
+//router.use(auth);
 router.use(fileUpload());
 
 //Realiza a busca de IPs
@@ -25,7 +25,8 @@ router.get('/:ip', async (req, res) => {
 
 //Registro de um novo IP
 //Requer que esteja logado como admin para registrar um IP
-router.post('/ipregister', authAdm, async (req,res) => {
+//authAdm - Middleware
+router.post('/ipregister', async (req,res) => {
     let sampleFile;
     if(!req.files || Object.keys(req.files).length === 0){
       res.status(400).send('O mapa não foi recebido.');
