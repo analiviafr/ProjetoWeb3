@@ -1,5 +1,5 @@
 const express = require('express');
-const Ip = require('../models/Ip');
+const Ip = require('../models/ip');
 const auth = require('../middlewares/auth');
 const authAdm = require('../middlewares/authAdm');
 const router = express.Router();
